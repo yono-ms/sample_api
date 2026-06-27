@@ -3,3 +3,8 @@ services:
     build: ../services/python-api
     ports:
       - "8000:8000"
+
+  node-api:
+    build: ../services/node-api
+    ports:
+      - "8001:8001"
