@@ -1,0 +1,65 @@
+name: Deploy OpenAPI Docs to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # mainブランチへのプッシュ時にワークフローをトリガー
+
+  # GitHub ActionsのUIから手動でワークフローを実行できるようにする
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write # GitHub Pagesへのデプロイのため
+  id-token: write # GitHub Pagesでの認証のため
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # 最新のNode.jsバージョンを使用
+
+      - name: Install swagger-ui-dist
+        run: npm install swagger-ui-dist
+
+      - name: Prepare build directory for Node.js API
+        run: |
+          mkdir -p _site/node-api
+          cp -r node_modules/swagger-ui-dist/* _site/node-api/
+          cp docs/node_api_openapi.yaml _site/node-api/
+          # index.htmlを修正してローカルのspecファイルを指すようにする
+          sed -i 's|url: "https://petstore.swagger.io/v2/swagger.json",|url: "node_api_openapi.yaml",|g' _site/node-api/index.html
+          # ページタイトルを変更して分かりやすくする
+          sed -i 's|<title>Swagger UI</title>|<title>Node.js API - Swagger UI</title>|g' _site/node-api/index.html
+
+      - name: Prepare build directory for Python API
+        run: |
+          mkdir -p _site/python-api
+          cp -r node_modules/swagger-ui-dist/* _site/python-api/
+          cp docs/python_api_openapi.yaml _site/python-api/
+          # index.htmlを修正してローカルのspecファイルを指すようにする
+          sed -i 's|url: "https://petstore.swagger.io/v2/swagger.json",|url: "python_api_openapi.yaml",|g' _site/python-api/index.html
+          # ページタイトルを変更して分かりやすくする
+          sed -i 's|<title>Swagger UI</title>|<title>Python API - Swagger UI</title>|g' _site/python-api/index.html
+
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '_site' # _siteディレクトリをartifactとしてアップロード
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
