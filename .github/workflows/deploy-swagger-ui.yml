@@ -37,9 +37,9 @@ jobs:
           mkdir -p _site/node-api
           cp -r node_modules/swagger-ui-dist/* _site/node-api/
           cp docs/node_api_openapi.yaml _site/node-api/
-          # index.htmlを修正してローカルのspecファイルを指すようにする
-          sed -i 's|url: "https://petstore.swagger.io/v2/swagger.json",|url: "node_api_openapi.yaml",|g' _site/node-api/index.html
-          # ページタイトルを変更して分かりやすくする
+          # swagger-initializer.jsを修正してローカルのspecファイルを指すようにする
+          sed -i 's|url: "https://petstore.swagger.io/v2/swagger.json",|url: "node_api_openapi.yaml",|g' _site/node-api/swagger-initializer.js
+          # index.htmlのページタイトルを変更して分かりやすくする
           sed -i 's|<title>Swagger UI</title>|<title>Node.js API - Swagger UI</title>|g' _site/node-api/index.html
 
       - name: Prepare build directory for Python API
@@ -47,9 +47,9 @@ jobs:
           mkdir -p _site/python-api
           cp -r node_modules/swagger-ui-dist/* _site/python-api/
           cp docs/python_api_openapi.yaml _site/python-api/
-          # index.htmlを修正してローカルのspecファイルを指すようにする
-          sed -i 's|url: "https://petstore.swagger.io/v2/swagger.json",|url: "python_api_openapi.yaml",|g' _site/python-api/index.html
-          # ページタイトルを変更して分かりやすくする
+          # swagger-initializer.jsを修正してローカルのspecファイルを指すようにする
+          sed -i 's|url: "https://petstore.swagger.io/v2/swagger.json",|url: "python_api_openapi.yaml",|g' _site/python-api/swagger-initializer.js
+          # index.htmlのページタイトルを変更して分かりやすくする
           sed -i 's|<title>Swagger UI</title>|<title>Python API - Swagger UI</title>|g' _site/python-api/index.html
 
       - name: Create root index.html
