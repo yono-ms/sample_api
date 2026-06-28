@@ -1,0 +1,39 @@
+openapi: 3.0.0
+info:
+  title: Python API Service
+  version: 1.0.0
+  description: A simple Python API with root and health endpoints.
+servers:
+  - url: http://localhost:8000
+    description: Local Python API server
+paths:
+  /:
+    get:
+      summary: Root Endpoint
+      description: Returns a welcome message.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Hello Docker API
+  /health:
+    get:
+      summary: Health Check
+      description: Checks the health status of the API.
+      responses:
+        '200':
+          description: API is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
