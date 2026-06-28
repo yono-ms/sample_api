@@ -27,7 +27,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # 最新のNode.jsバージョンを使用
+          node-version: '24' # 最新のNode.jsバージョンを使用
 
       - name: Install swagger-ui-dist
         run: npm install swagger-ui-dist
