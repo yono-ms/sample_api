@@ -52,6 +52,33 @@ jobs:
           # ページタイトルを変更して分かりやすくする
           sed -i 's|<title>Swagger UI</title>|<title>Python API - Swagger UI</title>|g' _site/python-api/index.html
 
+      - name: Create root index.html
+        run: |
+          cat > _site/index.html << EOF
+          <!DOCTYPE html>
+          <html>
+          <head>
+              <title>API Documentation</title>
+              <style>
+                  body { font-family: Arial, sans-serif; margin: 40px; }
+                  h1 { color: #333; }
+                  ul { list-style-type: none; padding: 0; }
+                  li { margin-bottom: 10px; }
+                  a { color: #007bff; text-decoration: none; }
+                  a:hover { text-decoration: underline; }
+              </style>
+          </head>
+          <body>
+              <h1>API Documentation</h1>
+              <p>Welcome to the API documentation portal. Please select an API below:</p>
+              <ul>
+                  <li><a href="./node-api/">Node.js API Swagger UI</a></li>
+                  <li><a href="./python-api/">Python API Swagger UI</a></li>
+              </ul>
+          </body>
+          </html>
+          EOF
+
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
 
