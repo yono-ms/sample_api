@@ -1,5 +1,9 @@
 # sample_api
 
+## Prerequisites
+
+- Docker Desktop with WSL 2 integration enabled
+
 ## Python API Service
 
 ### Build and Run
@@ -7,8 +11,10 @@
 You can build and run the Python API service using Docker Compose. Navigate to the root of the project and execute the following command:
 
 ```bash
-docker-compose -f infra/docker-compose.yml up --build -d
+docker compose -f infra/docker-compose.yml up --build -d
 ```
+
+*(Note: `docker-compose` command is also supported as an alias.)*
 
 This will build the Docker image for the `python-api` service and start it in detached mode.
 
@@ -45,7 +51,7 @@ Expected output:
 You can build and run the Node.js API service using Docker Compose. Add it to the existing `docker-compose.yml` configuration and execute the following command:
 
 ```bash
-docker-compose -f infra/docker-compose.yml up --build -d
+docker compose -f infra/docker-compose.yml up --build -d
 ```
 
 This will build the Docker image for the `node-api` service and start it in detached mode, alongside the Python API.
@@ -74,4 +80,14 @@ curl http://localhost:8001/health
 Expected output:
 ```json
 {"status":"ok"}
+```
+
+---
+
+## Teardown (Stop Services)
+
+To stop and remove containers created by Docker Compose:
+
+```bash
+docker compose -f infra/docker-compose.yml down
 ```
